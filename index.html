@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gaby, Com Amor</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração de fontes e cores do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        playfair: ['"Playfair Display"', 'serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                        signature: ['"Great Vibes"', 'cursive']
+                    },
+                    colors: {
+                        romantic: {
+                            light: '#FAF3F0',
+                            blush: '#EBC4C4',
+                            rose: '#D49B9B',
+                            dark: '#4A3B3B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF3F0;
+            color: #4A3B3B;
+            overflow-x: hidden;
+        }
+
+        /* Animação dos Corações Flutuantes */
+        .floating-heart {
+            position: fixed;
+            bottom: -10vh;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp 10s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Reveal suave no Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Polaroids - Estilo base e Hover forçado */
+        .polaroid-card {
+            background: white;
+            padding: 1rem 1rem 3.5rem 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        
+        /* Ao passar o mouse, a foto endireita e dá zoom */
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.08) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 50; 
+        }
+
+        .polaroid-text {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="font-poppins antialiased selection:bg-romantic-blush selection:text-white">
+
+    <div id="hearts-bg"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 z-10">
+        <div class="reveal max-w-3xl mx-auto">
+            <p class="font-poppins text-romantic-rose tracking-[0.2em] uppercase text-sm md:text-base mb-4 font-medium">Feliz aniversário, meu amor</p>
+            <h1 class="font-playfair text-5xl md:text-7xl font-bold mb-6 text-romantic-dark leading-tight">
+                Para a minha<br>
+                <span class="italic text-romantic-rose">Princesa <span class="inline-block animate-pulse text-red-500">❤️</span></span>
+            </h1>
+            <p class="font-poppins text-lg md:text-xl text-gray-600 font-light max-w-xl mx-auto mb-10 leading-relaxed">
+                Quase 4 anos construindo uma história linda ao seu lado. Hoje celebramos você, a pessoa que ilumina os meus dias.
+            </p>
+            
+            <a href="#memories" class="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-romantic-rose text-romantic-rose hover:bg-romantic-rose hover:text-white transition-colors duration-300">
+                <span>Nossa História</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Memórias / Galeria de Fotos -->
+    <section id="memories" class="relative py-24 px-4 z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-3 text-romantic-dark">Momentos Inesquecíveis</h2>
+                <div class="w-24 h-1 bg-romantic-blush mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Grade Flexível -->
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12 pt-8">
+                
+                <!-- Foto 1 -->
+                <div onclick="openLightbox('img/IMG_20221009_060107346_PORTRAIT.jpg', 'Você ilumina todos os meus dias...')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-5deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG_20221009_060107346_PORTRAIT.jpg" alt="Você ilumina todos os meus dias..." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Você ilumina todos os meus dias...</p>
+                </div>
+
+                <!-- Foto 2 -->
+                <div onclick="openLightbox('img/IMG_20221009_060542913_PORTRAIT.jpg', 'Onde eu sempre quero estar.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(4deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG_20221009_060542913_PORTRAIT.jpg" alt="Onde eu sempre quero estar." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Onde eu sempre quero estar.</p>
+                </div>
+
+                <!-- Foto 3 -->
+                <div onclick="openLightbox('img/IMG_20221109_201220635_PORTRAIT.jpg', 'Carinhos que adoçam minha vida.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-3deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG_20221109_201220635_PORTRAIT.jpg" alt="Carinhos que adoçam minha vida." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Carinhos que adoçam minha vida.</p>
+                </div>
+
+                <!-- Foto 4 -->
+                <div onclick="openLightbox('img/IMG_20221115_125241849_HDR.jpg', 'Diversão e amor sob o sol.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(6deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG_20221115_125241849_HDR.jpg" alt="Diversão e amor sob o sol." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Diversão e amor sob o sol.</p>
+                </div>
+
+                <!-- Foto 5 -->
+                <div onclick="openLightbox('img/IMG_20240501_164409289_HDR.jpg', 'Nosso compromisso lindo, rumo a abril de 2027!')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-6deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG_20240501_164409289_HDR.jpg" alt="Nosso compromisso lindo, rumo a abril de 2027!" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Nosso compromisso lindo, rumo a abril de 2027!</p>
+                </div>
+
+                <!-- Foto 6 -->
+                <div onclick="openLightbox('img/IMG-20240610-WA0063.jpg', 'A estrela dos meus melhores dias.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(3deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG-20240610-WA0063.jpg" alt="A estrela dos meus melhores dias." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">A estrela dos meus melhores dias.</p>
+                </div>
+
+                <!-- Foto 7 -->
+                <div onclick="openLightbox('img/IMG-20240706-WA0060.jpg', 'Nossas noites inesquecíveis.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-4deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG-20240706-WA0060.jpg" alt="Nossas noites inesquecíveis." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Nossas noites inesquecíveis.</p>
+                </div>
+
+                <!-- Foto 8 -->
+                <div onclick="openLightbox('img/IMG-20240831-WA0051.jpg', 'Minha parceira pra todas as horas.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(5deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG-20240831-WA0051.jpg" alt="Minha parceira pra todas as horas." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Minha parceira pra todas as horas.</p>
+                </div>
+
+                <!-- Foto 9 -->
+                <div onclick="openLightbox('img/IMG-20240831-WA0056.jpg', 'Dividindo a vida (e as batatas!).')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-2deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG-20240831-WA0056.jpg" alt="Dividindo a vida (e as batatas!)." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Dividindo a vida (e as batatas!).</p>
+                </div>
+
+                <!-- Foto 10 -->
+                <div onclick="openLightbox('img/IMG-20260422-WA0056.jpg', 'Com você, eu tenho a melhor vista do mundo.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(6deg);">
+                    <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
+                        <img src="img/IMG-20260422-WA0056.jpg" alt="Com você, eu tenho a melhor vista do mundo." class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
+                    </div>
+                    <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Com você, eu tenho a melhor vista do mundo.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Botão da Carta -->
+    <section class="relative py-24 px-4 mb-20 z-10 flex justify-center">
+        <div class="text-center reveal">
+            <h2 class="font-playfair text-3xl md:text-4xl mb-8 text-romantic-dark">Tenho algo para te dizer...</h2>
+            
+            <button onclick="openLetter()" class="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer border border-pink-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-romantic-rose group-hover:text-red-500 transition-colors animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span class="font-poppins font-medium text-romantic-dark">Ler Cartinha</span>
+                <span class="absolute inset-0 rounded-full shadow-[0_0_20px_rgba(235,196,196,0.5)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Modal Super Fofo da Carta -->
+    <div id="letter-modal" class="fixed inset-0 bg-pink-950/40 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-all duration-500">
+        
+        <div id="letter-content" class="bg-gradient-to-br from-pink-50 via-white to-pink-50 border-4 border-white shadow-[0_0_50px_rgba(235,196,196,0.8)] relative w-full max-w-2xl rounded-[3rem] p-8 md:p-14 transform scale-75 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] overflow-y-auto max-h-[90vh]">
+            
+            <button onclick="closeLetter()" class="absolute top-6 right-6 bg-white hover:bg-romantic-rose hover:text-white text-romantic-rose border border-pink-100 shadow-md rounded-full p-3 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="text-center mb-8 relative pt-4">
+                <svg class="w-12 h-12 mx-auto text-romantic-rose mb-4 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <h3 class="font-playfair text-4xl md:text-5xl font-bold text-romantic-dark">Minha Noiva 💍👩‍❤️‍👨</h3>
+            </div>
+            
+            <div class="font-poppins text-lg md:text-xl text-gray-700 leading-relaxed text-center space-y-6">
+                <p class="font-light">
+                    Feliz aniversário, meu amor! E que venham os nossos tão aguardados 4 anos no mês que vem.
+                </p>
+                <p class="font-light">
+                    Cada dia ao seu lado tem sido o meu maior presente. Mal posso esperar por tudo de lindo que ainda vamos viver juntos... uma mulher carinhosa, dedicada, inteligente, capacitada, uma mulher que embeleza os meus dias, que me deixa feliz, que me diverte, que eu amo muito.
+                </p>
+                <p class="font-light">
+                    Como eu disse quando estávamos nos conhecendo:
+                </p>
+                <p class="italic text-romantic-rose font-semibold mt-4 text-2xl md:text-3xl font-playfair">
+                    "nosso amor é lindo, incrível e maravilhoso..."
+                </p>
+            </div>
+
+            <div class="mt-14 flex flex-col items-center justify-center text-center">
+                <p class="font-signature text-5xl md:text-6xl text-romantic-rose mb-4">Te amo infinito,</p>
+                <div class="w-20 h-[2px] bg-romantic-blush mt-2 mb-8 rounded-full"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Lightbox de Imagem (Modal) -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/95 backdrop-blur-sm z-[60] flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-all duration-300">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-romantic-rose transition-colors p-2 z-[70] bg-black/30 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div id="lightbox-content" class="relative max-w-5xl w-full flex flex-col items-center transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <img id="lightbox-img" src="" alt="Foto Ampliada" class="max-h-[75vh] w-auto object-contain rounded-md shadow-[0_0_40px_rgba(255,255,255,0.1)] border-[8px] border-white bg-white">
+            <p id="lightbox-caption" class="font-signature text-4xl md:text-5xl text-white mt-6 text-center drop-shadow-lg tracking-wide px-4"></p>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Corações Flutuantes no fundo
+        const heartsContainer = document.getElementById('hearts-bg');
+        const colors = ['#EBC4C4', '#D49B9B', '#ffffff', '#FFD1D1'];
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="${colors[Math.floor(Math.random() * colors.length)]}" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 6 + 7) + 's';
+            heart.style.animationDelay = (Math.random() * 5) + 's';
+            heart.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 14000);
+        }
+        setInterval(createFloatingHeart, 600);
+
+        // Animação de Scroll Reveal (elementos surgindo)
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(reveal => {
+                if (reveal.getBoundingClientRect().top < window.innerHeight - 100) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Verificação inicial
+
+        // Modal da Carta Interativa e Chuva de Confetes
+        const modal = document.getElementById('letter-modal');
+        const letterContent = document.getElementById('letter-content');
+
+        function openLetter() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                letterContent.classList.remove('scale-75', 'opacity-0');
+                letterContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            // Explosão de confetes usando canvas-confetti
+            const count = 250;
+            const defaults = { origin: { y: 0.6 }, colors: ['#D49B9B', '#EBC4C4', '#ffffff', '#FFB3B3', '#FF6666'] };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, { particleCount: Math.floor(count * particleRatio) }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        function closeLetter() {
+            letterContent.classList.remove('scale-100', 'opacity-100');
+            letterContent.classList.add('scale-75', 'opacity-0');
+            setTimeout(() => modal.classList.add('opacity-0', 'pointer-events-none'), 400);
+        }
+
+        // Fechar clicando fora da carta
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeLetter();
+        });
+
+        // Lightbox de Imagens (Expandir fotos ao clicar)
+        const lightboxModal = document.getElementById('lightbox-modal');
+        const lightboxContent = document.getElementById('lightbox-content');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(src, caption) {
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            
+            lightboxModal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                lightboxContent.classList.remove('scale-95', 'opacity-0');
+                lightboxContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeLightbox() {
+            lightboxContent.classList.remove('scale-100', 'opacity-100');
+            lightboxContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                lightboxModal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => { lightboxImg.src = ''; }, 300); // Limpa o src após esconder
+            }, 300);
+        }
+
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) closeLightbox();
+        });
+    </script>
+</body>
+</html>
