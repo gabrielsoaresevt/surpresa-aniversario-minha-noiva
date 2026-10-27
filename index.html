@@ -46,21 +46,35 @@
             overflow-x: hidden;
         }
 
-        /* Animação dos Corações Flutuantes */
+        /* Animação dos Corações Flutuantes do Fundo */
         .floating-heart {
             position: fixed;
             bottom: -10vh;
             opacity: 0;
             pointer-events: none;
             z-index: 0;
-            animation: floatUp 10s linear infinite;
+            animation: floatUpBg 10s linear infinite;
         }
 
-        @keyframes floatUp {
+        @keyframes floatUpBg {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 0.6; }
             80% { opacity: 0.6; }
             100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Nova Animação dos Corações ao Clicar no Botão */
+        .click-heart {
+            animation: floatUpClick 1.5s ease-out forwards;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.5rem;
+        }
+
+        @keyframes floatUpClick {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
         /* Reveal suave no Scroll */
@@ -216,7 +230,7 @@
                     <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Com você, eu tenho a melhor vista do mundo.</p>
                 </div>
                 
-                <!-- Foto 11 (A nova foto do print) -->
+                <!-- Foto 11 -->
                 <div onclick="openLightbox('img/IMG-20260502-WA0092.jpg', 'Alegria de viver esse sonho ao seu lado.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-3deg);">
                     <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
                         <img src="img/IMG-20260502-WA0092.jpg" alt="Noivado lindo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
@@ -224,7 +238,7 @@
                     <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Alegria de viver esse sonho...</p>
                 </div>
 
-                <!-- Foto 12 (Alianças de Noivado - Nome corrigido) -->
+                <!-- Foto 12 -->
                 <div onclick="openLightbox('img/IMG-20260502-WA0225.jpg', 'Nossas alianças de noivado, o símbolo do nosso amor.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(4deg);">
                     <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
                         <img src="img/IMG-20260502-WA0225.jpg" alt="Nossas alianças de noivado" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
@@ -232,7 +246,7 @@
                     <p class="polaroid-text font-signature text-3xl text-romantic-dark px-4 truncate">Nossas alianças de noivado, o símbolo do nosso amor.</p>
                 </div>
                 
-                <!-- Foto 13 (Noivado - Nome corrigido) -->
+                <!-- Foto 13 -->
                 <div onclick="openLightbox('img/IMG-20260502-WA0238.jpg', 'O tão sonhado Sim!, o início do nosso para sempre.')" class="reveal polaroid-card max-w-[280px] w-full cursor-pointer" style="transform: rotate(-4deg);">
                     <div class="overflow-hidden aspect-[3/4] rounded-sm bg-gray-100 flex items-center justify-center">
                         <img src="img/IMG-20260502-WA0238.jpg" alt="O tão sonhado Sim!" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/EBC4C4/ffffff?text=Carregando+Amor...'">
@@ -288,7 +302,7 @@
 
             <!-- Botão Guardar no coração -->
             <div class="mt-12 flex justify-center">
-                <button onclick="closeLetter()" class="px-8 py-3 bg-romantic-rose text-white rounded-full font-poppins font-medium text-lg hover:bg-pink-400 hover:shadow-[0_0_15px_rgba(212,155,155,0.6)] transition-all duration-300 transform hover:-translate-y-1">
+                <button onclick="guardarNoCoracao(event)" class="px-8 py-3 bg-romantic-rose text-white rounded-full font-poppins font-medium text-lg hover:bg-pink-400 hover:shadow-[0_0_15px_rgba(212,155,155,0.6)] transition-all duration-300 transform hover:-translate-y-1">
                     Guardar no coração ❤️
                 </button>
             </div>
@@ -374,6 +388,42 @@
             if (e.target === modal) closeLetter();
         });
 
+        // Efeito Especial: Guardar no Coração
+        function guardarNoCoracao(event) {
+            const btn = event.currentTarget;
+            const originalText = "Guardar no coração ❤️";
+            
+            // Muda o texto do botão
+            btn.innerHTML = "Guardado! ❤️";
+            
+            // Cria os corações flutuantes a partir do local do clique
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('click-heart');
+                
+                // Posição ligeiramente aleatória ao redor do cursor
+                const offsetX = (Math.random() - 0.5) * 60;
+                const offsetY = (Math.random() - 0.5) * 60;
+                heart.style.left = (event.clientX + offsetX) + 'px';
+                heart.style.top = (event.clientY + offsetY) + 'px';
+                
+                // Varia a duração da animação para um efeito mais natural
+                heart.style.animationDuration = (1 + Math.random() * 0.5) + 's';
+                
+                document.body.appendChild(heart);
+                
+                // Remove o elemento após a animação
+                setTimeout(() => heart.remove(), 1500);
+            }
+            
+            // Aguarda 1.5s, reseta o botão e fecha a carta
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                closeLetter();
+            }, 1500);
+        }
+
         // Lightbox de Imagens (Expandir fotos ao clicar)
         const lightboxModal = document.getElementById('lightbox-modal');
         const lightboxContent = document.getElementById('lightbox-content');
@@ -397,7 +447,7 @@
             
             setTimeout(() => {
                 lightboxModal.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => { lightboxImg.src = ''; }, 300); // Limpa o src após esconder
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
             }, 300);
         }
 
